@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport' />
     <title>WS scrcpy</title>
+    <style>
+        body.bare-mode .control-buttons-list,
+        body.bare-mode .more-box,
+        body.bare-mode .toolbox,
+        body.bare-mode .device-list,
+        body.bare-mode nav,
+        body.bare-mode header,
+        body.bare-mode footer { display: none !important; }
+        body.bare-mode { margin: 0 !important; padding: 0 !important; background: #000 !important; overflow: hidden !important; }
+        body.bare-mode .device-view { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; margin: 0 !important; padding: 0 !important; }
+        body.bare-mode .video { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; max-width: 100vw !important; max-height: 100vh !important; object-fit: contain !important; }
+        body.bare-mode .video-layer { position: absolute !important; width: 100% !important; height: 100% !important; }
+        body.bare-mode .touch-layer { position: absolute !important; width: 100% !important; height: 100% !important; }
+    </style>
 </head>
 <body>
 </body>

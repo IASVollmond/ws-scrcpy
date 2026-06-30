@@ -6,6 +6,10 @@ import { Tool } from './client/Tool';
 window.onload = async function (): Promise<void> {
     const hash = location.hash.replace(/^#!/, '');
     const parsedQuery = new URLSearchParams(hash);
+    if (parsedQuery.get('bare') === '1') {
+        document.body.classList.add('bare-mode');
+        document.title = '';
+    }
     const action = parsedQuery.get('action');
 
     /// #if USE_BROADWAY
