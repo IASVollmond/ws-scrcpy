@@ -1,9 +1,8 @@
 FROM node:18-alpine AS builder
 RUN apk add --no-cache git python3 make g++
 WORKDIR /ws-scrcpy
-COPY package.json package-lock.json ./
-RUN npm install
 COPY . .
+RUN npm install
 RUN npm run dist
 
 FROM node:18-alpine
