@@ -28,27 +28,27 @@
 </head>
 <body>
 <script>
-(function () {
-    var h = location.hash.replace(/^#!/, '');
-    var q = new URLSearchParams(h);
-    if (q.get('bare') !== '1') return;
-    document.body.classList.add('bare-mode');
-    document.title = '';
-    var sel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
-    new MutationObserver(function (ms) {
-        for (var i = 0; i < ms.length; i++) {
-            var added = ms[i].addedNodes;
-            for (var j = 0; j < added.length; j++) {
-                var n = added[j];
-                if (n instanceof HTMLElement) {
-                    if (n.matches(sel)) n.remove();
-                    var list = n.querySelectorAll(sel);
-                    for (var k = 0; k < list.length; k++) list[k].remove();
-                }
+var h = location.hash.replace(/^#!/, '');
+var q = new URLSearchParams(h);
+console.log('bare-mode check', h, q.get('bare'));
+if (q.get('bare') !== '1') return;
+document.body.classList.add('bare-mode');
+document.body.setAttribute('data-bare', '1');
+document.title = '';
+var sel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
+new MutationObserver(function (ms) {
+    for (var i = 0; i < ms.length; i++) {
+        var added = ms[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+            var n = added[j];
+            if (n instanceof HTMLElement) {
+                if (n.matches(sel)) n.remove();
+                var list = n.querySelectorAll(sel);
+                for (var k = 0; k < list.length; k++) list[k].remove();
             }
         }
-    }).observe(document.body, { childList: true, subtree: true });
-})();
+    }
+}).observe(document.body, { childList: true, subtree: true });
 </script>
 </body>
 </html>
