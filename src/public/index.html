@@ -28,9 +28,11 @@
 </head>
 <body>
 <script>
+document.body.setAttribute('data-bare-debug', 'loaded');
 var h = location.hash.replace(/^#!/, '');
 var q = new URLSearchParams(h);
-console.log('bare-mode check', h, q.get('bare'));
+document.body.setAttribute('data-bare-hash', h || '(empty)');
+document.body.setAttribute('data-bare-param', q.get('bare') || '(null)');
 if (q.get('bare') !== '1') return;
 document.body.classList.add('bare-mode');
 document.body.setAttribute('data-bare', '1');
