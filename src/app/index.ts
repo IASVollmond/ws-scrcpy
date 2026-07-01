@@ -9,10 +9,15 @@ window.onload = async function (): Promise<void> {
     if (parsedQuery.get('bare') === '1') {
         document.body.classList.add('bare-mode');
         document.title = '';
-        const toolbarSel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
-        new MutationObserver(function (mutations) {
+        var toolbarSel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
+        var observer = new MutationObserver(function (mutations) {
             for (var mi = 0; mi < mutations.length; mi++) {
-                var added = mutations[mi].addedNodes;
+                var m = mutations[mi];
+                if (m.type === 'attributes' && m.target === document.body) {
+                    document.body.classList.remove('stream', 'shell');
+                    continue;
+                }
+                var added = m.addedNodes;
                 for (var ni = 0; ni < added.length; ni++) {
                     var node = added[ni];
                     if (node instanceof HTMLElement) {
@@ -22,7 +27,8 @@ window.onload = async function (): Promise<void> {
                     }
                 }
             }
-        }).observe(document.body, { childList: true, subtree: true });
+        });
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
     }
     const action = parsedQuery.get('action');
 
