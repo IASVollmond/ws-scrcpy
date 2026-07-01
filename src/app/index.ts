@@ -9,6 +9,20 @@ window.onload = async function (): Promise<void> {
     if (parsedQuery.get('bare') === '1') {
         document.body.classList.add('bare-mode');
         document.title = '';
+        const toolbarSel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
+        new MutationObserver(function (mutations) {
+            for (var mi = 0; mi < mutations.length; mi++) {
+                var added = mutations[mi].addedNodes;
+                for (var ni = 0; ni < added.length; ni++) {
+                    var node = added[ni];
+                    if (node instanceof HTMLElement) {
+                        if (node.matches(toolbarSel)) node.remove();
+                        var list = node.querySelectorAll(toolbarSel);
+                        for (var li = 0; li < list.length; li++) list[li].remove();
+                    }
+                }
+            }
+        }).observe(document.body, { childList: true, subtree: true });
     }
     const action = parsedQuery.get('action');
 
