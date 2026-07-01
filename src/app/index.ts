@@ -12,12 +12,7 @@ window.onload = async function (): Promise<void> {
         var toolbarSel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
         var observer = new MutationObserver(function (mutations) {
             for (var mi = 0; mi < mutations.length; mi++) {
-                var m = mutations[mi];
-                if (m.type === 'attributes' && m.target === document.body) {
-                    document.body.classList.remove('stream', 'shell');
-                    continue;
-                }
-                var added = m.addedNodes;
+                var added = mutations[mi].addedNodes;
                 for (var ni = 0; ni < added.length; ni++) {
                     var node = added[ni];
                     if (node instanceof HTMLElement) {
@@ -28,7 +23,7 @@ window.onload = async function (): Promise<void> {
                 }
             }
         });
-        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.body, { childList: true, subtree: true });
     }
     const action = parsedQuery.get('action');
 
