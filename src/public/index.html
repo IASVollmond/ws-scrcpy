@@ -28,14 +28,7 @@
 </head>
 <body>
 <script>
-document.body.setAttribute('data-bare-debug', 'loaded');
-var h = location.hash.replace(/^#!/, '');
-var q = new URLSearchParams(h);
-document.body.setAttribute('data-bare-hash', h || '(empty)');
-document.body.setAttribute('data-bare-param', q.get('bare') || '(null)');
-if (q.get('bare') !== '1') return;
 document.body.classList.add('bare-mode');
-document.body.setAttribute('data-bare', '1');
 document.title = '';
 var sel = '.control-buttons-list,.control-button,.control-wrapper,.more-box,.toolbox,.device-list,nav,header,footer';
 new MutationObserver(function (ms) {
