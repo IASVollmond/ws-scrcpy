@@ -101,6 +101,11 @@ const front: webpack.Configuration = {
         new HtmlWebpackPlugin({
             template: path.join(PROJECT_ROOT, '/src/public/index.html'),
             inject: 'head',
+            minify: {
+                minifyJS: false,
+                collapseWhitespace: false,
+                removeComments: false,
+            },
         }),
         new MiniCssExtractPlugin(),
         new webpack.ProvidePlugin({

@@ -1,5 +1,6 @@
 import * as http from 'http';
 import * as https from 'https';
+import fs from 'fs';
 import path from 'path';
 import { Service } from './Service';
 import { Utils } from '../Utils';
@@ -77,6 +78,22 @@ export class HttpServer extends TypedEmitter<HttpServerEvents> implements Servic
     public async start(): Promise<void> {
         this.mainApp = express();
         if (HttpServer.SERVE_STATIC && HttpServer.PUBLIC_DIR) {
+            var bareCss = 'body.bare-mode,body.bare-mode.stream,body.bare-mode.shell{--stream-bg-color:#000!important;--main-bg-color:#000!important;--control-buttons-bg-color:#000!important;background:#000!important;background-color:#000!important;position:fixed!important;margin:0!important;padding:0!important;overflow:hidden!important;width:100%!important;height:100%!important}body.bare-mode .device-view{position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#000!important}body.bare-mode .video,body.bare-mode .video video,body.bare-mode .video-layer,body.bare-mode .touch-layer{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;object-fit:contain!important;background:#000!important}body.bare-mode .control-buttons-list,body.bare-mode .control-button,body.bare-mode .control-wrapper,body.bare-mode .more-box,body.bare-mode .toolbox,body.bare-mode .device-list,body.bare-mode nav,body.bare-mode header,body.bare-mode footer{display:none!important}';
+            var bareJs = 'document.body.classList.add("bare-mode");document.title="";';
+            this.mainApp.get(PATHNAME, function (_req: express.Request, res: express.Response, next: express.NextFunction) {
+                var acceptHtml = (_req.headers['accept'] || '').includes('text/html');
+                if (!acceptHtml) return next();
+                try {
+                    var htmlPath = path.join(HttpServer.PUBLIC_DIR, 'index.html');
+                    var html = fs.readFileSync(htmlPath, 'utf8');
+                    html = html.replace('</head>', '<style>' + bareCss + '</style></head>');
+                    html = html.replace('</body>', '<script>' + bareJs + '</script></body>');
+                    res.set('Content-Type', 'text/html; charset=utf-8');
+                    res.send(html);
+                } catch (_e) {
+                    next();
+                }
+            });
             this.mainApp.use(PATHNAME, express.static(HttpServer.PUBLIC_DIR));
 
             /// #if USE_WDA_MJPEG_SERVER
