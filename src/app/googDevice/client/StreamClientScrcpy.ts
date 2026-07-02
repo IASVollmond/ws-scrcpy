@@ -60,6 +60,7 @@ export class StreamClientScrcpy
     private filePushHandler?: FilePushHandler;
     private fitToScreen?: boolean;
     private readonly streamReceiver: StreamReceiverScrcpy;
+    private videoSizeSent = false;
 
     public static registerPlayer(playerClass: PlayerClass): void {
         if (playerClass.isSupported()) {
@@ -224,6 +225,12 @@ export class StreamClientScrcpy
         const oldInfo = this.player.getScreenInfo();
         if (!screenInfo.equals(oldInfo)) {
             this.player.setScreenInfo(screenInfo);
+        }
+
+        if (!this.videoSizeSent && screenInfo && window.parent !== window) {
+            this.videoSizeSent = true;
+            const { width, height } = screenInfo.videoSize;
+            window.parent.postMessage({ type: "video-size", width, height }, "*");
         }
 
         if (!videoSettings.equals(currentSettings)) {
