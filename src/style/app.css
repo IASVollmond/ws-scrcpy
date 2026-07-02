@@ -80,17 +80,17 @@ body.shell {
 
 body.stream {
     background-color: var(--stream-bg-color);
-    position: static;
-    width: auto;
-    height: auto;
-    min-width: auto;
-    min-height: auto;
-    overflow: visible;
 }
 
 body.stream .device-view {
-    float: none;
-    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #000;
 }
 

@@ -231,6 +231,9 @@ export class StreamClientScrcpy
             this.videoSizeSent = true;
             const { width, height } = screenInfo.videoSize;
             window.parent.postMessage({ type: "video-size", width, height }, "*");
+            document.body.style.width = `${width}px`;
+            document.body.style.height = `${height}px`;
+            document.body.style.overflow = "hidden";
         }
 
         if (!videoSettings.equals(currentSettings)) {
